@@ -1,7 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TelephonyChecker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+    <style name="Base.Theme.TelephonyChecker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="isLightTheme">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimary">@color/tealA200</item>
+        <item name="android:textColor">@color/gray100</item>
     </style>
 </resources>

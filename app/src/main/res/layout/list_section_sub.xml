@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/list_section_margin_vertical"
+    android:paddingHorizontal="@dimen/list_padding_horizontal"
+    android:paddingVertical="@dimen/list_section_padding_vertical"
+    android:textSize="@dimen/list_section_text_size"
+    android:textColor="@color/list_section_secondary_text"
+    android:background="@drawable/list_section_sub_bg"
+    tools:text="@tools:sample/lorem"
+    tools:context=".MainActivity" />

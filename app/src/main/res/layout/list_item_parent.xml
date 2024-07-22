@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/list_item_margin_vertical"
+    android:paddingHorizontal="@dimen/list_padding_horizontal"
+    android:paddingVertical="@dimen/list_item_padding_vertical"
+    android:orientation="horizontal"
+    android:background="@color/list_item_parent_background"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/list_item_space_horizontal"
+        android:textSize="@dimen/list_item_text_size"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textSize="@dimen/list_item_text_size"
+        android:textColor="?colorPrimary"
+        tools:text="@tools:sample/lorem" />
+
+</LinearLayout>

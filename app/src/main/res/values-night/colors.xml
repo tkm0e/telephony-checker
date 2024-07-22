@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_background">@color/gray900</color>
+    <color name="list_item_parent_background">@color/gray800</color>
+    <color name="list_section_primary_background">@color/gray100</color>
+    <color name="list_section_primary_text">@color/gray800</color>
+    <color name="list_section_secondary_background">@color/gray800</color>
+    <color name="list_section_secondary_text">@color/gray100</color>
+    <color name="refresh_progress_background">@color/gray800</color>
+    <color name="refresh_progress_indicator">@color/tealA200</color>
+    <color name="footer_text">@color/gray500</color>
+    <color name="fab_background">@color/tealA200</color>
+    <color name="fab_text">@color/gray900</color>
+    <color name="snackbar_background">@color/gray800</color>
+    <color name="snackbar_text">@color/gray50</color>
+</resources>

@@ -1,9 +1,42 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.TelephonyChecker" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Base.Theme.TelephonyChecker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="isLightTheme">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="colorPrimary">@color/tealA700</item>
+        <item name="android:textColor">@color/gray500</item>
     </style>
 
-    <style name="Theme.TelephonyChecker" parent="Base.Theme.TelephonyChecker" />
+    <style name="Theme.TelephonyChecker" parent="Base.Theme.TelephonyChecker">
+        <item name="android:windowBackground">@color/main_background</item>
+        <item name="fontFamily">@font/line_seed</item>
+        <item name="snackbarStyle">@style/Theme.SnackbarStyle</item>
+        <item name="snackbarTextViewStyle">@style/Theme.SnackbarTextViewStyle</item>
+        <item name="extendedFloatingActionButtonStyle">@style/Theme.ExtendedFloatingActionButton</item>
+    </style>
+
+    <style name="Theme.SnackbarStyle" parent="Widget.MaterialComponents.Snackbar">
+        <item name="backgroundTint">@color/snackbar_background</item>
+    </style>
+
+    <style name="Theme.SnackbarTextViewStyle" parent="Widget.MaterialComponents.Snackbar.TextView">
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textSize">@dimen/snackbar_text_size</item>
+        <item name="android:textColor">@color/snackbar_text</item>
+        <item name="android:drawablePadding">@dimen/snackbar_drawable_padding</item>
+        <item name="android:drawableTint">@color/snackbar_text</item>
+    </style>
+
+    <style name="Theme.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textSize">@dimen/fab_text_size</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="iconTint">@color/fab_text</item>
+        <item name="backgroundTint">@color/fab_background</item>
+        <item name="shapeAppearanceOverlay">@style/FloatingActionButtonShapeAppearanceOverlay</item>
+    </style>
+
+    <style name="FloatingActionButtonShapeAppearanceOverlay">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/fab_corner_size</item>
+    </style>
 </resources>
