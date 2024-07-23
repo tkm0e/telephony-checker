@@ -17,12 +17,48 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/container"
+                android:id="@+id/wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/main_background" />
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/main_background" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
+                    android:paddingHorizontal="@dimen/list_padding_horizontal"
+                    android:orientation="horizontal">
+
+                    <Button
+                        style="@style/OutlinedButtonStyle"
+                        android:id="@+id/btn_network"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/network"
+                        app:icon="@drawable/ic_network" />
+
+                    <Button
+                        style="@style/OutlinedButtonStyle"
+                        android:id="@+id/btn_sim"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/sim"
+                        app:icon="@drawable/ic_sim" />
+
+                </LinearLayout>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

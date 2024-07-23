@@ -39,4 +39,12 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/fab_corner_size</item>
     </style>
+
+    <style name="OutlinedButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:minHeight">@dimen/button_min_height</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/button_corner_size</item>
+        <item name="drawableTint">?colorPrimary</item>
+    </style>
 </resources>

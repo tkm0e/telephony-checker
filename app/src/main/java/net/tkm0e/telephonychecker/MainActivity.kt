@@ -20,7 +20,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.annotation.IntDef
+import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        setWindowInset(findViewById(R.id.container))
+        setWindowInset(findViewById(R.id.wrapper))
         setWindowInset(findViewById(R.id.fab))
 
         container = findViewById(R.id.container)
@@ -58,24 +61,21 @@ class MainActivity : AppCompatActivity() {
                 isRefreshing = false
             }
         }
+        findViewById<Button>(R.id.btn_network).setOnClickListener {
+            if (!openNetworkSettings()) {
+                showMessage(R.string.unsupported_device, R.drawable.ic_fail)
+            }
+        }
+        findViewById<Button>(R.id.btn_sim).setOnClickListener {
+            if (!openSimSettings()) {
+                showMessage(R.string.unsupported_device, R.drawable.ic_fail)
+            }
+        }
         findViewById<Button>(R.id.fab).setOnClickListener {
             val success = Screenshot.take(container)
-            val text = if (success) R.string.screenshot_saved else R.string.screenshot_failed
+            val message = if (success) R.string.screenshot_saved else R.string.screenshot_failed
             val icon = if (success) R.drawable.ic_done else R.drawable.ic_fail
-            Snackbar.make(findViewById(R.id.main), text, Snackbar.LENGTH_SHORT).also {
-                setWindowInset(it.view)
-                (it.view.layoutParams as CoordinatorLayout.LayoutParams).apply {
-                    width = ViewGroup.LayoutParams.WRAP_CONTENT
-                    gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
-                }
-                it.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-                    .setCompoundDrawablesWithIntrinsicBounds(
-                        null,
-                        AppCompatResources.getDrawable(this, icon),
-                        null,
-                        null
-                    )
-            }.show()
+            showMessage(message, icon)
         }
     }
 
@@ -84,6 +84,47 @@ class MainActivity : AppCompatActivity() {
         if (checkPermission()) {
             reload()
         }
+    }
+
+    private fun openNetworkSettings(): Boolean {
+        val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            return false
+        }
+        return true
+    }
+
+    private fun openSimSettings(): Boolean {
+        val intent = Intent().apply {
+            setClassName("com.android.settings", "com.android.settings.Settings\$SimSettingsActivity")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                return openSimProfilesSettings()
+            }
+            return false
+        }
+        return true
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    private fun openSimProfilesSettings(): Boolean {
+        val intent = Intent(Settings.ACTION_MANAGE_ALL_SIM_PROFILES_SETTINGS).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            return false
+        }
+        return true
     }
 
     private fun reload() {
@@ -236,6 +277,23 @@ class MainActivity : AppCompatActivity() {
             container.addView(it)
         }
         view.findViewById<TextView>(R.id.ver).text = "${getString(R.string.app_name)} v${BuildConfig.VERSION_NAME}"
+    }
+
+    private fun showMessage(@StringRes message: Int, @DrawableRes icon: Int) {
+        Snackbar.make(findViewById(R.id.main), message, Snackbar.LENGTH_SHORT).also {
+            setWindowInset(it.view)
+            (it.view.layoutParams as CoordinatorLayout.LayoutParams).apply {
+                width = ViewGroup.LayoutParams.WRAP_CONTENT
+                gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
+            }
+            it.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                .setCompoundDrawablesWithIntrinsicBounds(
+                    null,
+                    AppCompatResources.getDrawable(this, icon),
+                    null,
+                    null
+                )
+        }.show()
     }
 
     private fun setWindowInset(view: View) {
