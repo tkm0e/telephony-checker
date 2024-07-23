@@ -2,6 +2,7 @@ package net.tkm0e.telephonychecker
 
 import android.Manifest.permission.READ_PHONE_NUMBERS
 import android.Manifest.permission.READ_PHONE_STATE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -72,18 +73,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
         findViewById<Button>(R.id.fab).setOnClickListener {
-            val success = Screenshot.take(container)
-            val message = if (success) R.string.screenshot_saved else R.string.screenshot_failed
-            val icon = if (success) R.drawable.ic_done else R.drawable.ic_fail
-            showMessage(message, icon)
+            takeScreenshot()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (checkPermission()) {
+        if (checkPhonePermission()) {
             reload()
         }
+    }
+
+    private fun takeScreenshot() {
+        if (!checkStoragePermission()) {
+            return
+        }
+        val success = Screenshot.take(container)
+        val message = if (success) R.string.screenshot_saved else R.string.screenshot_failed
+        val icon = if (success) R.drawable.ic_done else R.drawable.ic_fail
+        showMessage(message, icon)
     }
 
     private fun openNetworkSettings(): Boolean {
@@ -313,26 +321,43 @@ class MainActivity : AppCompatActivity() {
     }
 
 //region Permissions
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
+    private val requestPhonePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
         if (granted[READ_PHONE_STATE] == true && granted[READ_PHONE_NUMBERS] == true) {
             return@registerForActivityResult
         }
-
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))
         startActivity(intent)
     }
 
-    private fun checkPermission(): Boolean {
+    private fun checkPhonePermission(): Boolean {
         if (ContextCompat.checkSelfPermission(this, READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             return true
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            requestPermissionLauncher.launch(arrayOf(READ_PHONE_STATE, READ_PHONE_NUMBERS))
+            requestPhonePermissionLauncher.launch(arrayOf(READ_PHONE_STATE, READ_PHONE_NUMBERS))
         } else {
-            requestPermissionLauncher.launch(arrayOf(READ_PHONE_STATE))
+            requestPhonePermissionLauncher.launch(arrayOf(READ_PHONE_STATE))
         }
+        return false
+    }
 
+    private val requestStoragePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) {
+            takeScreenshot()
+            return@registerForActivityResult
+        }
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))
+        startActivity(intent)
+    }
+
+    private fun checkStoragePermission(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return true
+        }
+        if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        }
+        requestStoragePermissionLauncher.launch(WRITE_EXTERNAL_STORAGE)
         return false
     }
 //endregion
