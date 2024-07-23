@@ -8,6 +8,7 @@
 
     <style name="Theme.TelephonyChecker" parent="Base.Theme.TelephonyChecker">
         <item name="android:windowBackground">@color/main_background</item>
+        <item name="colorPrimaryDark">@color/main_background</item>
         <item name="fontFamily">@font/line_seed</item>
         <item name="snackbarStyle">@style/Theme.SnackbarStyle</item>
         <item name="snackbarTextViewStyle">@style/Theme.SnackbarTextViewStyle</item>
