@@ -16,7 +16,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -29,14 +28,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
-import androidx.core.view.marginTop
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
+import net.tkm0e.telephonychecker.ViewUtil.setWindowInset
 
 class MainActivity : AppCompatActivity() {
     private lateinit var container: ViewGroup
@@ -284,7 +278,13 @@ class MainActivity : AppCompatActivity() {
         val view = LayoutInflater.from(this).inflate(R.layout.list_footer, container, false).also {
             container.addView(it)
         }
-        view.findViewById<TextView>(R.id.ver).text = "${getString(R.string.app_name)} v${BuildConfig.VERSION_NAME}"
+        view.findViewById<TextView>(R.id.ver).apply {
+            text = "${getString(R.string.app_name)} v${BuildConfig.VERSION_NAME}"
+            setOnClickListener {
+                val intent = Intent(this@MainActivity, LicenseActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun showMessage(@StringRes message: Int, @DrawableRes icon: Int) {
@@ -302,22 +302,6 @@ class MainActivity : AppCompatActivity() {
                     null
                 )
         }.show()
-    }
-
-    private fun setWindowInset(view: View) {
-        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            (v.layoutParams as MarginLayoutParams).apply {
-                setMargins(
-                    v.marginLeft + systemBars.left,
-                    v.marginTop + systemBars.top,
-                    v.marginRight + systemBars.right,
-                    v.marginBottom + systemBars.bottom
-                )
-            }
-            ViewCompat.setOnApplyWindowInsetsListener(v, null)
-            insets
-        }
     }
 
 //region Permissions
