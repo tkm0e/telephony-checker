@@ -45,7 +45,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/network"
-                        app:icon="@drawable/ic_network" />
+                        android:drawableTop="@drawable/ic_network" />
 
                     <Button
                         style="@style/OutlinedButtonStyle"
@@ -55,7 +55,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:text="@string/sim"
-                        app:icon="@drawable/ic_sim" />
+                        android:drawableTop="@drawable/ic_sim" />
 
                 </LinearLayout>
             </LinearLayout>

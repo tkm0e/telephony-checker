@@ -42,7 +42,8 @@
     </style>
 
     <style name="OutlinedButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:minHeight">@dimen/button_min_height</item>
+        <item name="android:paddingTop">@dimen/button_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/button_padding_vertical</item>
         <item name="android:letterSpacing">0</item>
         <item name="android:textAllCaps">false</item>
         <item name="cornerRadius">@dimen/button_corner_size</item>
