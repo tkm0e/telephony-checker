@@ -210,42 +210,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addOrUpdateSection(@SectionType type: Int, title: String) {
-        val view = container.findViewWithTag(title)
-            ?: when (type) {
-                SECTION_TYPE_SUB ->
-                    LayoutInflater.from(this)
-                        .inflate(R.layout.list_section_sub, container, false)
-                else ->
-                    LayoutInflater.from(this)
-                        .inflate(R.layout.list_section_main, container, false)
-            }.also {
-                container.addView(it)
-                it.tag = title
-            }
-        view.findViewById<TextView>(R.id.title).text = title
-    }
-
-    private fun addOrUpdateItem(@ItemType type: Int, title: String, value: String) {
-        val view = container.findViewWithTag(title)
-            ?: when (type) {
-                ITEM_TYPE_PARENT ->
-                    LayoutInflater.from(this)
-                        .inflate(R.layout.list_item_parent, container, false)
-                ITEM_TYPE_CHILD ->
-                    LayoutInflater.from(this)
-                        .inflate(R.layout.list_item_child, container, false)
-                else ->
-                    LayoutInflater.from(this)
-                        .inflate(R.layout.list_item, container, false)
-            }.also {
-                container.addView(it)
-                it.tag = title
-            }
-        view.findViewById<TextView>(R.id.title).text = title
-        view.findViewById<TextView>(R.id.value).text = value
-    }
-
     private fun addSection(@SectionType type: Int, title: String) {
         val view = when (type) {
             SECTION_TYPE_SUB ->
