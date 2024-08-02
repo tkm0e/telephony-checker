@@ -4,6 +4,8 @@ import android.Manifest.permission.READ_PHONE_NUMBERS
 import android.Manifest.permission.READ_PHONE_STATE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,7 +16,6 @@ import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -234,7 +235,16 @@ class MainActivity : AppCompatActivity() {
             container.addView(it)
         }
         view.findViewById<TextView>(R.id.title).text = title
-        view.findViewById<TextView>(R.id.value).text = value
+        view.findViewById<TextView>(R.id.value).apply {
+            text = value
+            setOnClickListener {
+                getSystemService(ClipboardManager::class.java)
+                    .setPrimaryClip(ClipData.newPlainText(title, value))
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    showMessage(R.string.value_copied, R.drawable.ic_copy)
+                }
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")

@@ -3,6 +3,7 @@
     <string name="screenshot">Screenshot</string>
     <string name="screenshot_saved">Screenshot saved</string>
     <string name="screenshot_failed">Screenshot failed</string>
+    <string name="value_copied">Value copied</string>
     <string name="network">Network</string>
     <string name="sim">SIM</string>
     <string name="unsupported_device">Unsupported device</string>
