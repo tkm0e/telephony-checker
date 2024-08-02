@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        setWindowInset(findViewById(R.id.wrapper))
-        setWindowInset(findViewById(R.id.fab))
+        setWindowInset(findViewById(R.id.scroll_wrapper))
+        setWindowInset(findViewById(R.id.fab_wrapper))
 
         container = findViewById(R.id.container)
         findViewById<SwipeRefreshLayout>(R.id.refresh).apply {
