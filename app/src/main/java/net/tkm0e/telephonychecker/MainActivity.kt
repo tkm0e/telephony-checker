@@ -183,6 +183,12 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun addSubscriptionManagerSection() {
         addSection(SECTION_TYPE_MAIN, "SubscriptionManager/Info")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            addItem(ITEM_TYPE_DEFAULT, "DefaultSubscriptionId", "${SubscriptionManager.getDefaultSubscriptionId()}")
+            addItem(ITEM_TYPE_DEFAULT, "DefaultVoiceSubscriptionId", "${SubscriptionManager.getDefaultVoiceSubscriptionId()}")
+            addItem(ITEM_TYPE_DEFAULT, "DefaultSmsSubscriptionId", "${SubscriptionManager.getDefaultSmsSubscriptionId()}")
+            addItem(ITEM_TYPE_DEFAULT, "DefaultDataSubscriptionId", "${SubscriptionManager.getDefaultDataSubscriptionId()}")
+        }
         val subscriptionManager = getSystemService(SubscriptionManager::class.java)
         val infoList = subscriptionManager.activeSubscriptionInfoList
         if (infoList.isNullOrEmpty()) {
