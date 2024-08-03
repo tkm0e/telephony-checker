@@ -31,7 +31,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
-import net.tkm0e.telephonychecker.ViewUtil.setWindowInset
 
 class MainActivity : AppCompatActivity() {
     private lateinit var container: ViewGroup
@@ -40,8 +39,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        setWindowInset(findViewById(R.id.scroll_wrapper))
-        setWindowInset(findViewById(R.id.fab_wrapper))
+        ViewUtil.setWindowInsetPadding(findViewById(R.id.scroll_wrapper))
+        ViewUtil.setWindowInsetPadding(findViewById(R.id.fab_wrapper))
 
         container = findViewById(R.id.container)
         findViewById<SwipeRefreshLayout>(R.id.refresh).apply {
@@ -263,7 +262,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMessage(@StringRes message: Int, @DrawableRes icon: Int) {
         Snackbar.make(findViewById(R.id.main), message, Snackbar.LENGTH_SHORT).also {
-            setWindowInset(it.view)
+            ViewUtil.setWindowInsetMargin(it.view)
             (it.view.layoutParams as CoordinatorLayout.LayoutParams).apply {
                 width = ViewGroup.LayoutParams.WRAP_CONTENT
                 gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP

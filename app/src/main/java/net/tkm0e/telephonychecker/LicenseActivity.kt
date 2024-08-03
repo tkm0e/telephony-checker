@@ -12,7 +12,7 @@ class LicenseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_license)
-        ViewUtil.setWindowInset(findViewById(R.id.container))
+        ViewUtil.setWindowInsetPadding(findViewById(R.id.scroll_wrapper))
 
         findViewById<TextView>(R.id.section1).text = "LINE Seed"
         findViewById<TextView>(R.id.text1).text = assets.open("OFL.txt").bufferedReader().use { it.readText() }

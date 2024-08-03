@@ -6,12 +6,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 object ViewUtil {
-    fun setWindowInset(view: View) {
+    fun setWindowInsetMargin(view: View) {
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             (v.layoutParams as MarginLayoutParams).apply {
                 setMargins(bars.left, bars.top, bars.right, bars.bottom)
             }
+            insets
+        }
+    }
+
+    fun setWindowInsetPadding(view: View) {
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
             insets
         }
     }
