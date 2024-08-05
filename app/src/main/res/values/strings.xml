@@ -25,4 +25,6 @@
     <string name="sim">SIM</string>
     <string name="unsupported_device">Unsupported device</string>
     <string name="licenses">Licenses</string>
+    <string name="please_allow_phone_permission">Please allow \"Phone\" permission</string>
+    <string name="please_allow_storage_permission">Please allow \"Storage\" permission</string>
 </resources>

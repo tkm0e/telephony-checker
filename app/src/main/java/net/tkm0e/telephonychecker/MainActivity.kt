@@ -35,6 +35,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
@@ -319,6 +320,7 @@ class MainActivity : AppCompatActivity() {
                 return@registerForActivityResult
             }
         }
+        Toast.makeText(this, R.string.please_allow_phone_permission, Toast.LENGTH_SHORT).show()
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))
         startActivity(intent)
     }
@@ -343,6 +345,7 @@ class MainActivity : AppCompatActivity() {
             takeScreenshot()
             return@registerForActivityResult
         }
+        Toast.makeText(this, R.string.please_allow_storage_permission, Toast.LENGTH_SHORT).show()
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))
         startActivity(intent)
     }
