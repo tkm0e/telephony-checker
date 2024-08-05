@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity() {
             addItem(ITEM_TYPE_DEFAULT, "DataEnabled", "${telephonyManager.isDataEnabled}")
         }
         addItem(ITEM_TYPE_DEFAULT, "DataState", TelephonyHelper.getDataStateName(telephonyManager.dataState))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             addItem(ITEM_TYPE_DEFAULT, "DataNetworkType", TelephonyHelper.getDataNetworkTypeName(telephonyManager.dataNetworkType))
         } else {
             addItem(ITEM_TYPE_DEFAULT, "NetworkType", TelephonyHelper.getDataNetworkTypeName(telephonyManager.networkType))
