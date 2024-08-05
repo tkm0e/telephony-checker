@@ -68,7 +68,11 @@ class MainActivity : AppCompatActivity() {
                 progressViewEndOffset
             )
             setOnRefreshListener {
-                reload()
+                if (checkPhonePermission()) {
+                    reload()
+                } else {
+                    requestPhonePermission()
+                }
                 isRefreshing = false
             }
         }
@@ -85,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.fab).setOnClickListener {
             takeScreenshot()
         }
+
+        if (!checkPhonePermission()) {
+            requestPhonePermission()
+        }
     }
 
     override fun onResume() {
@@ -96,6 +104,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun takeScreenshot() {
         if (!checkStoragePermission()) {
+            requestStoragePermission()
             return
         }
         val success = Screenshot.take(container)
@@ -314,14 +323,17 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun checkPhonePermission(): Boolean {
-        if (ContextCompat.checkSelfPermission(this, READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
-            return true
-        }
+    private fun requestPhonePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requestPhonePermissionLauncher.launch(arrayOf(READ_PHONE_STATE, READ_PHONE_NUMBERS))
         } else {
             requestPhonePermissionLauncher.launch(arrayOf(READ_PHONE_STATE))
+        }
+    }
+
+    private fun checkPhonePermission(): Boolean {
+        if (ContextCompat.checkSelfPermission(this, READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            return true
         }
         return false
     }
@@ -335,6 +347,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun requestStoragePermission() {
+        requestStoragePermissionLauncher.launch(WRITE_EXTERNAL_STORAGE)
+    }
+
     private fun checkStoragePermission(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             return true
@@ -342,7 +358,6 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             return true
         }
-        requestStoragePermissionLauncher.launch(WRITE_EXTERNAL_STORAGE)
         return false
     }
 //endregion
