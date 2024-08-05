@@ -43,6 +43,7 @@
         <item name="android:textColor">@color/snackbar_text</item>
         <item name="android:drawablePadding">@dimen/snackbar_drawable_padding</item>
         <item name="android:drawableTint">@color/snackbar_text</item>
+        <item name="drawableTint">@color/snackbar_text</item>
     </style>
 
     <style name="Theme.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
