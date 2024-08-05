@@ -301,8 +301,14 @@ class MainActivity : AppCompatActivity() {
 
 //region Permissions
     private val requestPhonePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { granted ->
-        if (granted[READ_PHONE_STATE] == true && granted[READ_PHONE_NUMBERS] == true) {
-            return@registerForActivityResult
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (granted[READ_PHONE_STATE] == true && granted[READ_PHONE_NUMBERS] == true) {
+                return@registerForActivityResult
+            }
+        } else {
+            if (granted[READ_PHONE_STATE] == true) {
+                return@registerForActivityResult
+            }
         }
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName"))
         startActivity(intent)
