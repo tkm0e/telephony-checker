@@ -35,6 +35,10 @@ object Screenshot {
     private const val FILENAME_PREFIX = "TelephonyChecker_"
 
     fun take(view: View): Boolean {
+        if (view.width == 0 || view.height == 0) {
+            return false
+        }
+
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         view.draw(canvas)
