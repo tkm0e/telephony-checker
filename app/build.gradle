@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "net.tkm0e.telephonychecker"
-        minSdk 23
+        minSdk 22
         targetSdk 34
         versionCode 4
         versionName "1.3"

@@ -22,6 +22,7 @@ import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -61,8 +62,8 @@ class MainActivity : AppCompatActivity() {
 
         container = findViewById(R.id.container)
         findViewById<SwipeRefreshLayout>(R.id.refresh).apply {
-            setProgressBackgroundColorSchemeColor(getColor(R.color.refresh_progress_background))
-            setColorSchemeColors(getColor(R.color.refresh_progress_indicator))
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this@MainActivity, R.color.refresh_progress_background))
+            setColorSchemeColors(ContextCompat.getColor(this@MainActivity, R.color.refresh_progress_indicator))
             setProgressViewOffset(
                 false,
                 progressViewStartOffset,
@@ -188,7 +189,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("HardwareIds", "MissingPermission")
     private fun addTelephonyManagerSection() {
         addSection(SECTION_TYPE_MAIN, "TelephonyManager")
-        val telephonyManager = getSystemService(TelephonyManager::class.java)
+        val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         addItem(ITEM_TYPE_DEFAULT, "Line1Number", telephonyManager.line1Number ?: "")
         addItem(ITEM_TYPE_DEFAULT, "SimState", TelephonyHelper.getSimStateName(telephonyManager.simState))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -215,7 +216,7 @@ class MainActivity : AppCompatActivity() {
             addItem(ITEM_TYPE_DEFAULT, "DefaultSmsSubscriptionId", "${SubscriptionManager.getDefaultSmsSubscriptionId()}")
             addItem(ITEM_TYPE_DEFAULT, "DefaultDataSubscriptionId", "${SubscriptionManager.getDefaultDataSubscriptionId()}")
         }
-        val subscriptionManager = getSystemService(SubscriptionManager::class.java)
+        val subscriptionManager = getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
         val infoList = subscriptionManager.activeSubscriptionInfoList
         if (infoList.isNullOrEmpty()) {
             addItem(ITEM_TYPE_DEFAULT,"(No SIM)", "")
@@ -269,7 +270,7 @@ class MainActivity : AppCompatActivity() {
         view.findViewById<TextView>(R.id.value).apply {
             text = value
             setOnClickListener {
-                getSystemService(ClipboardManager::class.java)
+                (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
                     .setPrimaryClip(ClipData.newPlainText(title, value))
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                     showMessage(R.string.value_copied, R.drawable.ic_copy)

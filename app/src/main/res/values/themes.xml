@@ -15,10 +15,10 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.TelephonyChecker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="isLightTheme">true</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <item name="colorPrimary">@color/tealA700</item>
         <item name="android:textColor">@color/gray500</item>
     </style>
@@ -42,7 +42,7 @@
         <item name="android:textSize">@dimen/snackbar_text_size</item>
         <item name="android:textColor">@color/snackbar_text</item>
         <item name="android:drawablePadding">@dimen/snackbar_drawable_padding</item>
-        <item name="android:drawableTint">@color/snackbar_text</item>
+        <item name="android:drawableTint" tools:ignore="NewApi">@color/snackbar_text</item>
         <item name="drawableTint">@color/snackbar_text</item>
     </style>
 

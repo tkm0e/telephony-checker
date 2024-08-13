@@ -15,10 +15,10 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.TelephonyChecker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="isLightTheme">false</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
         <item name="colorPrimary">@color/tealA200</item>
         <item name="android:textColor">@color/gray100</item>
     </style>
