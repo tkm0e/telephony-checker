@@ -33,6 +33,7 @@ import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -51,6 +52,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
+    private val SimSettingClasses = arrayOf(
+        "com.android.settings" to "com.android.settings.Settings\$SimSettingsActivity",
+        "com.android.settings" to "com.android.settings.Settings\$DualSimSettingsActivity",
+        "com.motorola.msimsettings" to "com.motorola.msimsettings.MainActivity",
+    )
+
     private lateinit var container: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,10 +90,19 @@ class MainActivity : AppCompatActivity() {
                 showMessage(R.string.unsupported_device, R.drawable.ic_fail)
             }
         }
-        findViewById<Button>(R.id.btn_sim).setOnClickListener {
+        findViewById<Button>(R.id.btn_sim_settings).setOnClickListener {
             if (!openSimSettings()) {
                 showMessage(R.string.unsupported_device, R.drawable.ic_fail)
             }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            findViewById<Button>(R.id.btn_sim_profiles).setOnClickListener {
+                if (!openSimProfilesSettings()) {
+                    showMessage(R.string.unsupported_device, R.drawable.ic_fail)
+                }
+            }
+        } else {
+            findViewById<Button>(R.id.btn_sim_profiles).visibility = View.GONE
         }
         findViewById<Button>(R.id.fab).setOnClickListener {
             takeScreenshot()
@@ -128,19 +144,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openSimSettings(): Boolean {
-        val intent = Intent().apply {
-            setClassName("com.android.settings", "com.android.settings.Settings\$SimSettingsActivity")
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        }
-        try {
-            startActivity(intent)
-        } catch (e: Exception) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                return openSimProfilesSettings()
+        for ((pkg, cls) in SimSettingClasses) {
+            val intent = Intent().apply {
+                setClassName(pkg, cls)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             }
-            return false
+            try {
+                startActivity(intent)
+                return true
+            } catch (e: Exception) {
+                continue
+            }
         }
-        return true
+        return false
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
