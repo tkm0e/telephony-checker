@@ -204,8 +204,9 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("HardwareIds", "MissingPermission")
     private fun addTelephonyManagerSection() {
+        val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as? TelephonyManager
+            ?: return
         addSection(SECTION_TYPE_MAIN, "TelephonyManager")
-        val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         addItem(ITEM_TYPE_DEFAULT, "Line1Number", telephonyManager.line1Number ?: "")
         addItem(ITEM_TYPE_DEFAULT, "SimState", TelephonyHelper.getSimStateName(telephonyManager.simState))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -225,6 +226,8 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     private fun addSubscriptionManagerSection() {
+        val subscriptionManager = getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as? SubscriptionManager
+            ?: return
         addSection(SECTION_TYPE_MAIN, "SubscriptionManager/Info")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             addItem(ITEM_TYPE_DEFAULT, "DefaultSubscriptionId", "${SubscriptionManager.getDefaultSubscriptionId()}")
@@ -232,8 +235,7 @@ class MainActivity : AppCompatActivity() {
             addItem(ITEM_TYPE_DEFAULT, "DefaultSmsSubscriptionId", "${SubscriptionManager.getDefaultSmsSubscriptionId()}")
             addItem(ITEM_TYPE_DEFAULT, "DefaultDataSubscriptionId", "${SubscriptionManager.getDefaultDataSubscriptionId()}")
         }
-        val subscriptionManager = getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
-        val infoList = subscriptionManager.activeSubscriptionInfoList
+        val infoList = subscriptionManager.activeSubscriptionInfoList?.filterNotNull()
         if (infoList.isNullOrEmpty()) {
             addItem(ITEM_TYPE_DEFAULT,"(No SIM)", "")
             return
@@ -286,8 +288,9 @@ class MainActivity : AppCompatActivity() {
         view.findViewById<TextView>(R.id.value).apply {
             text = value
             setOnClickListener {
-                (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
-                    .setPrimaryClip(ClipData.newPlainText(title, value))
+                val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+                    ?: return@setOnClickListener
+                clipboardManager.setPrimaryClip(ClipData.newPlainText(title, value))
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                     showMessage(R.string.value_copied, R.drawable.ic_copy)
                 }
