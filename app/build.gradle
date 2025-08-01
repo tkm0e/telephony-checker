@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'net.tkm0e.telephonychecker'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "net.tkm0e.telephonychecker"
         minSdk 22
-        targetSdk 35
+        targetSdk 36
         versionCode 6
         versionName "1.5"
 
