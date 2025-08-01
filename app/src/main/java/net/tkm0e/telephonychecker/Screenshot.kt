@@ -87,9 +87,12 @@ object Screenshot {
     }
 
     private fun takePieOrOlder(bitmap: Bitmap): Boolean {
-        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            .toString() + File.separator + createFileName() + ".png"
-        FileOutputStream(path).use { out ->
+        val dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        if (!dirPath.exists() && !dirPath.mkdirs()) {
+            return false
+        }
+        val fileName = dirPath.toString() + File.separator + createFileName() + ".png"
+        FileOutputStream(fileName).use { out ->
             try {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
                 out.flush()
