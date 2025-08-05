@@ -273,7 +273,7 @@ class MainActivity : AppCompatActivity() {
         view.findViewById<TextView>(R.id.title).text = title
     }
 
-    private fun addItem(@ItemType type: Int, title: String, value: String) {
+    private fun addItem(@ItemType type: Int, title: String, value: String?) {
         val view = when (type) {
             ITEM_TYPE_PARENT ->
                 LayoutInflater.from(this).inflate(R.layout.list_item_parent, container, false)
